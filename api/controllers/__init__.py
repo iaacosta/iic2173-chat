@@ -1,1 +1,1 @@
-from .index import index_blueprint
+from .messages import messages_blueprint
