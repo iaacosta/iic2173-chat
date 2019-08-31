@@ -1,1 +1,1 @@
-from .config import get_database, seed
+from .config import get_database, connection

@@ -1,6 +1,5 @@
 from flask import Flask, g
 from controllers import messages_blueprint
-from database import seed
 
 
 app = Flask(__name__)
@@ -16,4 +15,3 @@ def close_database(expection):
 
 if __name__ == "__main__":
     app.run()
-    seed()

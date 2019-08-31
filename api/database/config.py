@@ -1,23 +1,17 @@
 import sqlite3
+from os.path import join
 from flask import g
+from helpers import get_dirname
 
-DB_PATH = '/database/db.sqlite3'
+DB_PATH = join(get_dirname(__file__), 'db.sqlite3')
 
 
 def get_database():
     db = getattr(g, '_db', None)
     if db is None:
-        db = g._db = sqlite3.connect(DB_PATH)
+        db = g._db = connection()
     return db
 
 
-def seed():
-    print('Seeding database')
-    conn = get_database()
-    cursor = conn.cursor()
-    cursor.execute("""CREATE TABLE messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        posted_on DATETIME DEFAULT (datetime('now')),
-        user TEXT DEFAULT 'Anónimo', 
-        content TEXT NOT NULL)""")
-    conn.commit()
+def connection():
+    return sqlite3.connect(DB_PATH)
