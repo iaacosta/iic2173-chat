@@ -32,19 +32,19 @@ const Main = styled.main`
   grid-template-columns: 3fr 1fr;
   grid-template-rows: min-content 1fr 3rem min-content;
   grid-template-areas:
-    'header api'
-    'message-board api'
-    'pagination null'
-    'sender null';
+    'app-header api-header'
+    'message-board api-board'
+    'pagination api-board'
+    'input input';
   grid-gap: 1.5rem;
 `;
 
 const H1 = styled.h1`
+  grid-area: app-header;
   font-size: 4rem;
   font-weight: 300;
   color: ${colors.secondary};
   font-family: 'Fira Mono', monospace;
-  grid-area: header;
 `;
 
 const App: React.FC = () => {

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { colors, rgba } from 'lib/styles';
 
 const InputArea = styled.div`
-  grid-area: sender;
+  grid-area: input;
   display: grid;
   grid-template-columns: 1fr min-content;
   grid-template-rows: 1fr 1fr;
@@ -22,6 +22,7 @@ const Normalize = styled.input`
   border: none;
   outline: none;
   transition: background-color 0.2s ease;
+  border-radius: 5px;
 
   &::placeholder {
     color: ${rgba(colors.black, 0.3)};
@@ -33,7 +34,7 @@ const TextArea = styled(Normalize)`
   grid-row: 1 / -1;
 
   &:focus {
-    background-color: ${rgba(colors.whiter, 0.7)};
+    background-color: ${rgba(colors.whiter, 0.8)};
   }
 `;
 
@@ -41,7 +42,7 @@ const Input = styled(Normalize)`
   height: 5rem;
 
   &:focus {
-    background-color: ${rgba(colors.whiter, 0.7)};
+    background-color: ${rgba(colors.whiter, 0.8)};
   }
 `;
 
