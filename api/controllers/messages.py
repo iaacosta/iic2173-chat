@@ -38,7 +38,7 @@ def post_message():
 @cross_origin()
 def get_messages():
     cursor = get_database().cursor()
-    cursor.execute('SELECT * FROM messages LIMIT 100;')
+    cursor.execute('SELECT * FROM messages ORDER BY posted_on ASC LIMIT 100;')
     messages = map(lambda t: {
         'id': t[0],
         'date': int(datetime.strptime(t[1], '%Y-%m-%d %H:%M:%S').timestamp()
