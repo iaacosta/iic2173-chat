@@ -13,6 +13,7 @@ const Board = styled.div`
   background-color: ${colors.whiter};
   border-radius: 5px;
   list-style: none;
+  overflow: hidden;
 
   display: grid;
   grid-template-rows: repeat(5, 1fr);
