@@ -42,5 +42,4 @@ def get_messages():
                     * 1000),
         'user': t[2],
         'content': t[3]}, cursor.fetchall())
-    print(list(messages))
     return json.dumps(list(messages))
