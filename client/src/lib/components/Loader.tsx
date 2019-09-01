@@ -15,7 +15,7 @@ const PoseBox = posed.div({
   },
 });
 
-const Box = styled(PoseBox)<{ size?: number }>`
+const Circle = styled(PoseBox)<{ size?: number }>`
   width: ${({ size }) => `${size || 10}rem`};
   height: ${({ size }) => `${size || 10}rem`};
 
@@ -37,14 +37,14 @@ interface Props {
 }
 
 const Loader: React.FC<Props> = ({ size }) => {
-  const [visible, setVisible] = useState(true);
+  const [rotated, setRotated] = useState(true);
 
   useEffect(() => {
-    const interval = setInterval(() => setVisible(prevVis => !prevVis), 500);
+    const interval = setInterval(() => setRotated(prevVis => !prevVis), 500);
     return () => clearInterval(interval);
   }, []);
 
-  return <Box size={size} pose={visible ? 'visible' : 'hidden'} />;
+  return <Circle size={size} pose={rotated ? 'visible' : 'hidden'} />;
 };
 
 export default Loader;
