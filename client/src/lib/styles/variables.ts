@@ -5,7 +5,7 @@ export const colors = {
   secondary: '#FF6700',
   white: '#EBEBEB',
   whiter: '#f5f5f5',
-  black: '#222',
+  black: '#222222',
 };
 
 export const lengths = {

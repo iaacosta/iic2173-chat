@@ -1,51 +1,55 @@
 import React from 'react';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
-import { colors } from 'lib/styles';
-import { hyphenate } from 'lib/helpers';
+import { colors, rgba } from 'lib/styles';
 
-interface Props {
-  content: string;
-  user: string;
-}
-
-const Li = styled.li`
-  padding: 1rem 0;
-  display: grid;
-  font-size: 1.4rem;
-  grid-template-columns: minmax(10rem, min-content) 1fr;
+const Item = styled.div<{ idx: number }>`
+  line-height: 1.4;
+  padding: 1.5rem;
+  background-color: ${({ idx }) =>
+    idx % 2 === 0 ? 'transparent' : rgba(colors.black, 0.02)};
 `;
 
-const User = styled.p`
-  margin-right: 1rem;
+const User = styled(Item)`
   color: ${colors.primaryDark};
   font-weight: 600;
   position: relative;
   hyphens: auto;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-family: 'Fira Mono', monospace;
-
-  &::after {
-    content: ':';
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
 `;
 
-const Content = styled.p`
-  line-height: 1.4;
+const Content = styled(Item)`
+  display: grid;
+  grid-template-rows: 1fr min-content;
+  font-size: 1.3rem;
 `;
 
-const Message: React.FC<Props> = ({ content, user }) => {
-  const displayUser = user.length > 10 ? hyphenate(user, 10) : user;
+const DateElem = styled.label`
+  justify-self: end;
+  font-size: 1.2rem;
+  color: ${rgba(colors.primaryDark, 0.45)};
+  letter-spacing: 1px;
+`;
 
-  return (
-    <Li>
-      <User>{displayUser}</User>
-      <Content>{content}</Content>
-    </Li>
-  );
-};
+interface Props {
+  idx: number;
+  content: string;
+  date: number;
+  user: string;
+}
+
+const Message: React.FC<Props> = ({ idx, content, user, date }) => (
+  <>
+    <User as="p" idx={idx}>
+      {user}
+    </User>
+    <Content idx={idx}>
+      <p>{content}</p>
+      <DateElem>{dayjs(date).format('HH:mm DD-MM-YYYY')}</DateElem>
+    </Content>
+  </>
+);
 
 export default Message;
