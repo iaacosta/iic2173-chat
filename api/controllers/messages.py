@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from flask import Blueprint, render_template, request, abort
 from database import get_database
 
@@ -35,5 +36,11 @@ def post_message():
 def get_messages():
     cursor = get_database().cursor()
     cursor.execute('SELECT * FROM messages LIMIT 100;')
-    messages = json.dumps(cursor.fetchall())
-    return messages
+    messages = map(lambda t: {
+        'id': t[0],
+        'date': int(datetime.strptime(t[1], '%Y-%m-%d %H:%M:%S').timestamp()
+                    * 1000),
+        'user': t[2],
+        'content': t[3]}, cursor.fetchall())
+    print(list(messages))
+    return json.dumps(list(messages))
