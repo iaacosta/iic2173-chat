@@ -12,6 +12,7 @@ const Item = styled.div<{ idx: number }>`
 `;
 
 const User = styled(Item)`
+  grid-area: ${({ idx }) => `user-${idx}`};
   color: ${colors.primaryDark};
   font-weight: 600;
   position: relative;
@@ -21,6 +22,7 @@ const User = styled(Item)`
 `;
 
 const Content = styled(Item)`
+  grid-area: ${({ idx }) => `content-${idx}`};
   display: grid;
   grid-template-rows: 1fr min-content;
   font-size: 1.3rem;

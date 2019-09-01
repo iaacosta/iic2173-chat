@@ -30,10 +30,11 @@ const Main = styled.main`
 
   display: grid;
   grid-template-columns: 3fr 1fr;
-  grid-template-rows: min-content 1fr min-content;
+  grid-template-rows: min-content 1fr 3rem min-content;
   grid-template-areas:
     'header api'
     'message-board api'
+    'pagination null'
     'sender null';
   grid-gap: 1.5rem;
 `;
@@ -48,7 +49,7 @@ const H1 = styled.h1`
 
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchMessages = async () => {
     try {
