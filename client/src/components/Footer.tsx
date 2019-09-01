@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { lengths, colors, rgba } from 'lib/styles';
+import SvgGithub from 'lib/icons/Github';
 
 const FooterElem = styled.footer`
   width: ${lengths.mainWidth};
@@ -30,26 +31,35 @@ const P = styled.p<PProps>`
 const A = styled.a`
   cursor: pointer;
   transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
 
   &:link,
   &:visited {
-    color: inherit;
+    color: ${rgba(colors.white, 0.5)};
+    fill: ${rgba(colors.white, 0.5)};
     text-decoration: none;
   }
 
   &:hover,
   &:active {
     color: ${rgba(colors.white, 0.8)};
+    fill: ${rgba(colors.white, 0.8)};
   }
 `;
 
-const Icon = styled.i`
-  font-size: 1.9rem;
+const Icon = styled(SvgGithub)`
+  height: 2.1rem;
+  width: 2.1rem;
+  fill: inherit;
+  transition: fill 0.5s ease;
 `;
 
 const Footer: React.FC = () => (
   <FooterElem>
-    <P justify="flex-start">Ignacio Acosta ~ iaacosta@uc.cl</P>
+    <P justify="flex-start">
+      Ignacio Acosta ~&nbsp;<A href="mailto:iaacosta@uc.cl">iaacosta@uc.cl</A>
+    </P>
     <P justify="flex-end">
       <A href="https://github.com/cho19" target="_blank">
         <Icon />
