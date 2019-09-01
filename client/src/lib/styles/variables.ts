@@ -6,3 +6,8 @@ export const colors = {
   white: '#EBEBEB',
   black: '#222',
 };
+
+export const lengths = {
+  footerHeight: '4rem',
+  mainWidth: '90%',
+};
