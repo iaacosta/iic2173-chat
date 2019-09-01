@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios, { AxiosResponse } from 'axios';
 
 import Footer from 'components/Footer';
-import { colors, lengths } from 'lib/styles';
 import MessageBoard from 'components/MessageBoard';
+import MessageInput from 'components/MessageInput';
+import { colors, lengths } from 'lib/styles';
+import { Message } from 'lib/types';
 
 const Background = styled.div`
   height: 100vh;
@@ -44,11 +47,32 @@ const H1 = styled.h1`
 `;
 
 const App: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchMessages = async () => {
+    try {
+      const { data }: AxiosResponse<Message[]> = await axios.get(
+        '/api/messages',
+      );
+      setMessages(data);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
   return (
     <Background>
       <Main>
         <H1>Chat app</H1>
-        <MessageBoard />
+        <MessageBoard messages={messages} loading={loading} />
+        <MessageInput postCallback={() => null} />
       </Main>
       <Footer />
     </Background>

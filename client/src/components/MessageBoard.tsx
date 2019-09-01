@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios, { AxiosResponse } from 'axios';
 
-import Message from './Message';
+import MessageElement from './MessageElement';
 import { colors } from 'lib/styles';
+import { Message } from 'lib/types';
 import Loader from 'lib/components/Loader';
 
 const Board = styled.div`
@@ -25,46 +25,29 @@ const Centeree = styled.div`
   align-items: center;
 `;
 
-interface Message {
-  id: number;
-  date: number;
-  user: string;
-  content: string;
+interface Props {
+  messages: Message[];
+  loading: boolean;
 }
 
-const MessageBoard: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchMessages = async () => {
-    const { data }: AxiosResponse<Message[]> = await axios.get('/api/messages');
-    setMessages(data);
-    setTimeout(() => setLoading(false), 2000);
-  };
-
-  useEffect(() => {
-    fetchMessages();
-  }, []);
-
-  return (
-    <Board>
-      {loading ? (
-        <Centeree>
-          <Loader size={10} />
-        </Centeree>
-      ) : (
-        messages.map(({ id, user, content, date }, idx) => (
-          <Message
-            key={id}
-            idx={idx}
-            user={user}
-            content={content}
-            date={date}
-          />
-        ))
-      )}
-    </Board>
-  );
-};
+const MessageBoard: React.FC<Props> = ({ messages, loading }) => (
+  <Board>
+    {loading ? (
+      <Centeree>
+        <Loader size={10} />
+      </Centeree>
+    ) : (
+      messages.map(({ id, user, content, date }, idx) => (
+        <MessageElement
+          key={id}
+          idx={idx}
+          user={user}
+          content={content}
+          date={date}
+        />
+      ))
+    )}
+  </Board>
+);
 
 export default MessageBoard;
