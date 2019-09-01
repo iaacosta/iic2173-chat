@@ -73,24 +73,28 @@ const MessageBoard: React.FC<Props> = ({ messages, loading }) => {
       </Centeree>
     );
 
+  const PaginateJSX = (
+    <ReactPaginate
+      pageCount={messages.length > 0 ? Math.ceil(messages.length / 5) : 1}
+      pageRangeDisplayed={2}
+      marginPagesDisplayed={1}
+      previousLabel="&larr;"
+      nextLabel="&rarr;"
+      containerClassName="pagination"
+      activeLinkClassName="pagination__link pagination__link--selected"
+      pageLinkClassName="pagination__link"
+      nextLinkClassName="pagination__label"
+      previousLinkClassName="pagination__label"
+      disabledClassName="pagination__label--disabled"
+      breakLinkClassName="pagination__break"
+      onPageChange={item => setPage(item.selected + 1)}
+    />
+  );
+
   return (
     <>
       <Board>{loading ? LoadingJSX : MessagesJSX}</Board>
-      <ReactPaginate
-        pageCount={messages.length > 0 ? Math.ceil(messages.length / 5) : 1}
-        pageRangeDisplayed={2}
-        marginPagesDisplayed={1}
-        previousLabel="&larr;"
-        nextLabel="&rarr;"
-        containerClassName="pagination"
-        activeLinkClassName="pagination__link pagination__link--selected"
-        pageLinkClassName="pagination__link"
-        nextLinkClassName="pagination__label"
-        previousLinkClassName="pagination__label"
-        disabledClassName="pagination__label--disabled"
-        breakLinkClassName="pagination__break"
-        onPageChange={item => setPage(item.selected + 1)}
-      />
+      {loading ? null : PaginateJSX}
     </>
   );
 };
