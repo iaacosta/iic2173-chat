@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import ReactPaginate from 'react-paginate';
 
 import MessageElement from './MessageElement';
 import Loader from 'lib/components/Loader';
 import { colors } from 'lib/styles';
 import { Message } from 'lib/types';
+import 'lib/styles/pagination.scss';
 
 const Board = styled.div`
   grid-area: message-board;
@@ -60,6 +62,21 @@ const MessageBoard: React.FC<Props> = ({ messages, loading }) => {
           ))
         )}
       </Board>
+      <ReactPaginate
+        pageCount={Math.ceil(messages.length / 5)}
+        pageRangeDisplayed={2}
+        marginPagesDisplayed={1}
+        previousLabel="&larr;"
+        nextLabel="&rarr;"
+        containerClassName="pagination"
+        activeLinkClassName="pagination__link pagination__link--selected"
+        pageLinkClassName="pagination__link"
+        nextLinkClassName="pagination__label"
+        previousLinkClassName="pagination__label"
+        disabledClassName="pagination__label--disabled"
+        breakLinkClassName="pagination__break"
+        onPageChange={item => setPage(item.selected + 1)}
+      />
     </>
   );
 };

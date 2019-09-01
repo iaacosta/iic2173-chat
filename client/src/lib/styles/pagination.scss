@@ -1,0 +1,45 @@
+.pagination {
+  grid-area: pagination;
+  list-style: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__link,
+  &__label,
+  &__break {
+    margin: 0.2rem;
+    user-select: none;
+    cursor: pointer;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    background-color: #f5f5f5;
+
+    &:hover {
+      background-color: rgba(#f5f5f5, 0.75);
+    }
+
+    &--selected {
+      background-color: #13315c;
+      color: #f5f5f5;
+
+      &:hover {
+        background-color: rgba(#13315c, 0.75);
+      }
+    }
+  }
+
+  &__label--disabled &__label {
+    cursor: auto;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}
