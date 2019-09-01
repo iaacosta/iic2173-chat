@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 
 import MessageElement from './MessageElement';
 import Loader from 'lib/components/Loader';
-import { colors } from 'lib/styles';
+import { colors, rgba } from 'lib/styles';
 import { Message } from 'lib/types';
 import 'lib/styles/pagination.scss';
 
@@ -34,6 +34,12 @@ const Centeree = styled.div`
   align-items: center;
 `;
 
+const P = styled.p`
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: ${rgba(colors.black, 0.4)};
+`;
+
 interface Props {
   messages: Message[];
   loading: boolean;
@@ -43,25 +49,32 @@ const MessageBoard: React.FC<Props> = ({ messages, loading }) => {
   const [page, setPage] = useState(1);
   const shownMessages = messages.slice(0 + (page - 1) * 5, 5 + (page - 1) * 5);
 
+  const LoadingJSX = (
+    <Centeree>
+      <Loader size={10} />
+    </Centeree>
+  );
+
+  const MessagesJSX =
+    messages.length > 0 ? (
+      shownMessages.map(({ id, user, content, date }, idx) => (
+        <MessageElement
+          key={id}
+          idx={idx % 5}
+          user={user}
+          content={content}
+          date={date}
+        />
+      ))
+    ) : (
+      <Centeree>
+        <P>No hay mensajes. ¡Se el primero en escribir uno!</P>
+      </Centeree>
+    );
+
   return (
     <>
-      <Board>
-        {loading ? (
-          <Centeree>
-            <Loader size={10} />
-          </Centeree>
-        ) : (
-          shownMessages.map(({ id, user, content, date }, idx) => (
-            <MessageElement
-              key={id}
-              idx={idx % 5}
-              user={user}
-              content={content}
-              date={date}
-            />
-          ))
-        )}
-      </Board>
+      <Board>{loading ? LoadingJSX : MessagesJSX}</Board>
       <ReactPaginate
         pageCount={messages.length > 0 ? Math.ceil(messages.length / 5) : 1}
         pageRangeDisplayed={2}

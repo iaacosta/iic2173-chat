@@ -17,10 +17,15 @@ const Normalize = styled.input`
   padding: 1.5rem;
   font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
+  font-weight: inherit;
   background-color: ${colors.whiter};
   border: none;
   outline: none;
   transition: background-color 0.2s ease;
+
+  &::placeholder {
+    color: ${rgba(colors.black, 0.3)};
+  }
 `;
 
 const TextArea = styled(Normalize)`
@@ -77,7 +82,6 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
     try {
       await axios.post('/api/messages', pkg);
       setContent('');
-      setUser('');
       setContentValid(false);
       postCallback();
     } catch (err) {
