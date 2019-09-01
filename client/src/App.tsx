@@ -48,7 +48,7 @@ const H1 = styled.h1`
 
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchMessages = async () => {
     try {
@@ -72,7 +72,7 @@ const App: React.FC = () => {
       <Main>
         <H1>Chat app</H1>
         <MessageBoard messages={messages} loading={loading} />
-        <MessageInput postCallback={() => null} />
+        <MessageInput postCallback={fetchMessages} />
       </Main>
       <Footer />
     </Background>

@@ -14,7 +14,7 @@ const Board = styled.div`
 
   display: grid;
   grid-template-rows: repeat(5, 1fr);
-  grid-template-columns: minmax(8rem, min-content) 1fr;
+  grid-template-columns: minmax(10rem, min-content) 1fr;
 `;
 
 const Centeree = styled.div`

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 import { colors, rgba } from 'lib/styles';
+import { Message } from 'lib/types';
 
 const InputArea = styled.div`
   grid-area: sender;
@@ -68,13 +70,13 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
     setContent(value);
   };
 
-  const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const pkg: { content: string; user?: string } = { content };
     if (user !== '') pkg.user = user;
 
     try {
-      axios.post('/api/messages', pkg);
+      await axios.post('/api/messages', pkg);
       setContent('');
       setUser('');
       setContentValid(false);
@@ -84,11 +86,18 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
     }
   };
 
+  useEffect(() => {
+    const handleKeydown = ({ keyCode }: KeyboardEvent) =>
+      keyCode === 13 ? handleSubmit({ preventDefault() {} } as any) : null;
+    document.addEventListener('keydown', handleKeydown);
+    return () => document.removeEventListener('keydown', handleKeydown);
+  }, [handleSubmit]);
+
   return (
     <InputArea>
       <TextArea
         as="textarea"
-        placeholder="¡Escribe tu mensaje aquí!"
+        placeholder="Escribe tu mensaje aquí"
         value={content}
         onChange={handleContentChange}
       />
