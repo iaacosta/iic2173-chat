@@ -63,7 +63,7 @@ const MessageBoard: React.FC<Props> = ({ messages, loading }) => {
         )}
       </Board>
       <ReactPaginate
-        pageCount={Math.ceil(messages.length / 5)}
+        pageCount={messages.length > 0 ? Math.ceil(messages.length / 5) : 1}
         pageRangeDisplayed={2}
         marginPagesDisplayed={1}
         previousLabel="&larr;"
