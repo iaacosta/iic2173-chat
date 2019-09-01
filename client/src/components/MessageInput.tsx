@@ -1,10 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import dayjs from 'dayjs';
 
 import { colors, rgba } from 'lib/styles';
-import { Message } from 'lib/types';
 
 const InputArea = styled.div`
   grid-area: sender;
