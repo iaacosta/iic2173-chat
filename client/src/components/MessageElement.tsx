@@ -49,7 +49,7 @@ const Message: React.FC<Props> = ({ idx, content, user, date }) => (
     </User>
     <Content idx={idx}>
       <p>{content}</p>
-      <DateElem>{dayjs(date).format('HH:mm DD-MM-YYYY')}</DateElem>
+      <DateElem>{dayjs(date).format('HH:mm:ss / DD-MMM, YYYY')}</DateElem>
     </Content>
   </>
 );
