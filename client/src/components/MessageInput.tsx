@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -68,6 +68,7 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
   const [content, setContent] = useState('');
   const [contentValid, setContentValid] = useState(false);
   const [user, setUser] = useState('');
+  const textArea = useRef<HTMLInputElement>(null);
 
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -77,6 +78,8 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+    if (!contentValid) return;
+
     const pkg: { content: string; user?: string } = { content };
     if (user !== '') pkg.user = user;
 
@@ -84,6 +87,7 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
       await axios.post('/api/messages', pkg);
       setContent('');
       setContentValid(false);
+      textArea.current!.focus();
       postCallback();
     } catch (err) {
       console.error(err);
@@ -91,11 +95,20 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
   };
 
   useEffect(() => {
-    const handleKeydown = ({ keyCode }: KeyboardEvent) =>
-      keyCode === 13 ? handleSubmit({ preventDefault() {} } as any) : null;
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        event.preventDefault();
+        handleSubmit({ preventDefault() {} } as any);
+      }
+    };
+
     document.addEventListener('keydown', handleKeydown);
     return () => document.removeEventListener('keydown', handleKeydown);
   }, [handleSubmit]);
+
+  useEffect(() => {
+    textArea.current!.focus();
+  }, []);
 
   return (
     <InputArea>
@@ -103,6 +116,7 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
         as="textarea"
         placeholder="Escribe tu mensaje aquí"
         value={content}
+        ref={textArea}
         onChange={handleContentChange}
       />
       <Input
