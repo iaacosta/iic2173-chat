@@ -5,6 +5,7 @@ verify_ssl = true
 
 [scripts]
 dev = "python index.py"
+seed = "python seed.py"
 
 [dev-packages]
 pylint = "*"
