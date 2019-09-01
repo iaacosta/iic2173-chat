@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import { lengths, colors, rgba } from 'lib/styles';
 
@@ -45,7 +43,7 @@ const A = styled.a`
   }
 `;
 
-const Icon = styled(FontAwesomeIcon)`
+const Icon = styled.i`
   font-size: 1.9rem;
 `;
 
@@ -54,7 +52,7 @@ const Footer: React.FC = () => (
     <P justify="flex-start">Ignacio Acosta ~ iaacosta@uc.cl</P>
     <P justify="flex-end">
       <A href="https://github.com/cho19" target="_blank">
-        <Icon icon={faGithub} />
+        <Icon />
         &nbsp;&nbsp;cho19
       </A>
     </P>
