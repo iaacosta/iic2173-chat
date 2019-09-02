@@ -6,4 +6,8 @@ COPY . /app
 
 RUN mkdir /var/www
 
-CMD yarn install && yarn build && mv /app/build/* /var/www
+RUN yarn install && yarn build
+
+RUN rm -rf /app/node_modules
+
+CMD mv /app/build/* /var/www

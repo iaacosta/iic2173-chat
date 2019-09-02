@@ -1,0 +1,12 @@
+version: '3'
+services:
+  api:
+    image: nacho19/iic2173-e0-api:latest
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+  client:
+    image: nacho19/iic2173-e0-client:latest
+    build:
+      context: ./client
+      dockerfile: Dockerfile
