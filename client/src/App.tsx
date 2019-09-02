@@ -72,6 +72,7 @@ const App: React.FC = () => {
   };
 
   const fetchUserAge = async (name: string) => {
+    if (name === '') return setApiData(null);
     try {
       const { data }: AxiosResponse<APIResponse> = await axios.get(
         `https://api.agify.io/?name=${name}&country_id=CL`,
