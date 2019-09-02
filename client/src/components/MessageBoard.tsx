@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 
 import MessageElement from './MessageElement';
 import Loader from 'lib/components/Loader';
+import SvgRedo from 'lib/icons/Redo';
 import { colors, rgba } from 'lib/styles';
 import { Message } from 'lib/types';
 import 'lib/styles/pagination.scss';
@@ -41,12 +42,48 @@ const P = styled.p`
   color: ${rgba(colors.black, 0.4)};
 `;
 
+const Footer = styled.div`
+  grid-area: pagination;
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  justify-items: center;
+  align-items: center;
+`;
+
+const IconBox = styled.div`
+  cursor: pointer;
+  height: 3rem;
+  width: 3rem;
+  background-color: ${colors.secondary};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+const Icon = styled(SvgRedo)`
+  height: 2rem;
+  width: 2rem;
+  fill: ${colors.whiter};
+  transition: fill 0.5s ease;
+`;
+
 interface Props {
   messages: Message[];
   loading: boolean;
+  refreshCallback: () => void;
 }
 
-const MessageBoard: React.FC<Props> = ({ messages, loading }) => {
+const MessageBoard: React.FC<Props> = ({
+  messages,
+  loading,
+  refreshCallback,
+}) => {
   const [page, setPage] = useState(1);
   const shownMessages = messages.slice(0 + (page - 1) * 5, 5 + (page - 1) * 5);
 
@@ -74,27 +111,32 @@ const MessageBoard: React.FC<Props> = ({ messages, loading }) => {
     );
 
   const PaginateJSX = (
-    <ReactPaginate
-      pageCount={messages.length > 0 ? Math.ceil(messages.length / 5) : 1}
-      pageRangeDisplayed={2}
-      marginPagesDisplayed={1}
-      previousLabel="&larr;"
-      nextLabel="&rarr;"
-      containerClassName="pagination"
-      activeLinkClassName="pagination__link pagination__link--selected"
-      pageLinkClassName="pagination__link"
-      nextLinkClassName="pagination__label"
-      previousLinkClassName="pagination__label"
-      disabledClassName="pagination__label--disabled"
-      breakLinkClassName="pagination__break"
-      onPageChange={item => setPage(item.selected + 1)}
-    />
+    <>
+      <ReactPaginate
+        pageCount={messages.length > 0 ? Math.ceil(messages.length / 5) : 1}
+        pageRangeDisplayed={2}
+        marginPagesDisplayed={1}
+        previousLabel="&larr;"
+        nextLabel="&rarr;"
+        containerClassName="pagination"
+        activeLinkClassName="pagination__link pagination__link--selected"
+        pageLinkClassName="pagination__link"
+        nextLinkClassName="pagination__label"
+        previousLinkClassName="pagination__label"
+        disabledClassName="pagination__label--disabled"
+        breakLinkClassName="pagination__break"
+        onPageChange={item => setPage(item.selected + 1)}
+      />
+      <IconBox onClick={refreshCallback}>
+        <Icon />
+      </IconBox>
+    </>
   );
 
   return (
     <>
       <Board>{loading ? LoadingJSX : MessagesJSX}</Board>
-      {loading ? null : PaginateJSX}
+      <Footer>{loading ? null : PaginateJSX}</Footer>
     </>
   );
 };

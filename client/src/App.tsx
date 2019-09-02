@@ -92,7 +92,11 @@ const App: React.FC = () => {
     <Background>
       <Main>
         <Header>Chat app</Header>
-        <MessageBoard messages={messages} loading={loading} />
+        <MessageBoard
+          messages={messages}
+          loading={loading}
+          refreshCallback={fetchMessages}
+        />
         <APIHeader>API</APIHeader>
         <UserAge data={apiData} limitReached={apiLimitReached} />
         <MessageInput postCallback={fetchMessages} apiCallback={fetchUserAge} />
