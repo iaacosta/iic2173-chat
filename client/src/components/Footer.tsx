@@ -16,16 +16,12 @@ const FooterElem = styled.footer`
   justify-content: space-around;
 `;
 
-interface PProps {
-  justify?: string;
-}
-
-const P = styled.p<PProps>`
+const P = styled.p<{ justify: string }>`
   font-size: 1.4rem;
   color: ${rgba(colors.white, 0.5)};
   flex: 1;
   display: flex;
-  justify-content: ${({ justify }) => justify || 'center'};
+  justify-content: ${({ justify }) => justify};
 `;
 
 const A = styled.a`
@@ -60,6 +56,7 @@ const Footer: React.FC = () => (
     <P justify="flex-start">
       Ignacio Acosta ~&nbsp;<A href="mailto:iaacosta@uc.cl">iaacosta@uc.cl</A>
     </P>
+    <P justify="center">IIC2173</P>
     <P justify="flex-end">
       <A href="https://github.com/cho19" target="_blank">
         <Icon />
