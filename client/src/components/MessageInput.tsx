@@ -62,18 +62,26 @@ const Button = styled(Normalize)<{ valid: boolean }>`
 
 interface Props {
   postCallback: () => void;
+  apiCallback: (name: string) => void;
 }
 
-const MessageInput: React.FC<Props> = ({ postCallback }) => {
+const MessageInput: React.FC<Props> = ({ postCallback, apiCallback }) => {
   const [content, setContent] = useState('');
   const [contentValid, setContentValid] = useState(false);
   const [user, setUser] = useState('');
+  const [userTouched, setUserTouched] = useState(false);
   const textArea = useRef<HTMLInputElement>(null);
 
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     value === '' ? setContentValid(false) : setContentValid(true);
     setContent(value);
+  };
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (!userTouched) setUserTouched(true);
+    setUser(value);
   };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLElement>) => {
@@ -110,6 +118,14 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
     textArea.current!.focus();
   }, []);
 
+  useEffect(() => {
+    let timer: number;
+    if (userTouched) timer = setTimeout(() => apiCallback(user), 1500);
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [user]);
+
   return (
     <InputArea>
       <TextArea
@@ -123,7 +139,7 @@ const MessageInput: React.FC<Props> = ({ postCallback }) => {
         type="text"
         placeholder="Nombre (opcional)"
         value={user}
-        onChange={e => setUser(e.currentTarget.value)}
+        onChange={handleUserChange}
       />
       <Button
         as="button"

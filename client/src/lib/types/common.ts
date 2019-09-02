@@ -4,3 +4,13 @@ export interface Message {
   user: string;
   content: string;
 }
+
+export interface APIResponse {
+  name: string;
+  age: number;
+  count: number;
+}
+
+export interface APIData extends APIResponse {
+  name: string;
+}

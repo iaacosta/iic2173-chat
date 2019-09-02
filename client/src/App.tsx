@@ -6,7 +6,8 @@ import Footer from 'components/Footer';
 import MessageBoard from 'components/MessageBoard';
 import MessageInput from 'components/MessageInput';
 import { colors, lengths } from 'lib/styles';
-import { Message } from 'lib/types';
+import { Message, APIResponse, APIData } from 'lib/types';
+import UserAge from 'components/UserAge';
 
 const Background = styled.div`
   height: 100vh;
@@ -50,6 +51,8 @@ const H1 = styled.h1`
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
+  const [apiData, setApiData] = useState<APIData | null>(null);
+  const [apiLimitReached, setApiLimitReached] = useState(false);
 
   const fetchMessages = async () => {
     try {
@@ -64,6 +67,18 @@ const App: React.FC = () => {
     setLoading(false);
   };
 
+  const fetchUserAge = async (name: string) => {
+    try {
+      const { data }: AxiosResponse<APIResponse> = await axios.get(
+        `https://api.agify.io/?name=${name}&country_id=CL`,
+      );
+      setApiData({ ...data, name });
+    } catch (err) {
+      if (err.response.status === 429) setApiLimitReached(true);
+      else console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchMessages();
   }, []);
@@ -73,7 +88,8 @@ const App: React.FC = () => {
       <Main>
         <H1>Chat app</H1>
         <MessageBoard messages={messages} loading={loading} />
-        <MessageInput postCallback={fetchMessages} />
+        <UserAge data={apiData} limitReached={apiLimitReached} />
+        <MessageInput postCallback={fetchMessages} apiCallback={fetchUserAge} />
       </Main>
       <Footer />
     </Background>
