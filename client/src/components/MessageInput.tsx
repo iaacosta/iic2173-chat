@@ -120,7 +120,7 @@ const MessageInput: React.FC<Props> = ({ postCallback, apiCallback }) => {
 
   useEffect(() => {
     let timer: number;
-    if (userTouched) timer = setTimeout(() => apiCallback(user), 1500);
+    if (userTouched) timer = setTimeout(() => apiCallback(user), 1000);
     return () => {
       if (timer) clearTimeout(timer);
     };

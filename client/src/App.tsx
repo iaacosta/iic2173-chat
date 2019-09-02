@@ -35,17 +35,21 @@ const Main = styled.main`
   grid-template-areas:
     'app-header api-header'
     'message-board api-board'
-    'pagination api-board'
+    'pagination null'
     'input input';
   grid-gap: 1.5rem;
 `;
 
-const H1 = styled.h1`
+const Header = styled.h1`
   grid-area: app-header;
   font-size: 4rem;
   font-weight: 300;
   color: ${colors.secondary};
   font-family: 'Fira Mono', monospace;
+`;
+
+const APIHeader = styled(Header)`
+  grid-area: api-header;
 `;
 
 const App: React.FC = () => {
@@ -86,8 +90,9 @@ const App: React.FC = () => {
   return (
     <Background>
       <Main>
-        <H1>Chat app</H1>
+        <Header>Chat app</Header>
         <MessageBoard messages={messages} loading={loading} />
+        <APIHeader>API</APIHeader>
         <UserAge data={apiData} limitReached={apiLimitReached} />
         <MessageInput postCallback={fetchMessages} apiCallback={fetchUserAge} />
       </Main>
