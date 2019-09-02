@@ -23,7 +23,7 @@ class Seeder:
         cursor = self.connection.cursor()
         cursor.execute("""CREATE TABLE messages (
             id INTEGER PRIMARY KEY AUTOINCREMENT, 
-            posted_on DATETIME DEFAULT (datetime('now')),
+            posted_on DATETIME DEFAULT (datetime('now','localtime')),
             user TEXT DEFAULT 'Anónimo', 
             content TEXT NOT NULL)""")
         self.connection.commit()
