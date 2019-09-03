@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, abort
 from flask_cors import cross_origin
 from database import get_database
+from models import Message
 
 messages_blueprint = Blueprint('messages', __name__)
 
@@ -18,31 +19,21 @@ def post_message():
         abort(400)
 
     try:
-        conn = get_database()
-        cursor = conn.cursor()
-
-        if user is not None:
-            cursor.execute(
-                'INSERT INTO messages(content, user) VALUES (?, ?)', (content, user))
-        else:
-            cursor.execute(
-                'INSERT INTO messages(content) VALUES (?)', (content,))
-
-        conn.commit()
+        message = Message(content, user)
+        message.save()
         return 'OK'
-    except Exception:
+    except Exception as e:
         abort(500)
 
 
 @messages_blueprint.route('/')
 @cross_origin()
 def get_messages():
-    cursor = get_database().cursor()
-    cursor.execute('SELECT * FROM messages ORDER BY posted_on DESC LIMIT 100;')
+    message = Message()
     messages = map(lambda t: {
         'id': t[0],
         'date': int(datetime.strptime(t[1], '%Y-%m-%d %H:%M:%S').timestamp()
                     * 1000),
         'user': t[2],
-        'content': t[3]}, cursor.fetchall())
+        'content': t[3]}, message.all())
     return json.dumps(list(messages))
