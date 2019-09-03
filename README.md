@@ -1,5 +1,7 @@
 # Chat App - IIC2173
 
+Ignacio Acosta ~ iaacosta@uc.cl
+
 ## Stack
 
 La aplicación se desarrollo con las siguientes herramientas:
