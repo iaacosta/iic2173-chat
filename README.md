@@ -10,7 +10,7 @@ La aplicación se desarrollo con las siguientes herramientas:
 | ---------- | ---------- | --------- | ---------------- |
 | API        | Python     | flask     | `~/api`          |
 | Storage    | SQL        | sqlite3   | `~/api/database` |
-| Frontend   | Javascript | React.js  | `~/client`       |
+| Frontend   | Typescript | React.js  | `~/client`       |
 | Web server | nginx      | -         | `~/nginx.conf`   |
 
 El deploy se realizó con Docker.
