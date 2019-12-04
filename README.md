@@ -13,7 +13,25 @@ La aplicación se desarrollo con las siguientes herramientas:
 | Frontend   | Typescript | React.js  | `~/client`       |
 | Web server | nginx      | -         | `~/nginx.conf`   |
 
-El deploy se realizó con Docker.
+## Instrucciones
+
+### Local
+- Instalar `yarn@^1.13.0`, `node@^10.0.0` y `python@^3.7`
+- Instalar `pipenv` en `python`
+- En el directorio de la `api/`, correr los siguientes comandos para instalar
+  ```sh
+  pipenv shell
+  pipenv install
+  ```
+  Y posteriormente correr `pipenv run seed` para hacer la base de datos inicial.
+- En el directorio del `client/`, correr el siguiente comando:
+  ```sh
+  yarn
+  ```
+- Correr ambos servicios en paralelo con `pipenv run dev` en `api/` y `yarn start` en `client/`
+  
+### Docker
+- Correr contenedores con `docker-compose up`
 
 ## Nginx
 
