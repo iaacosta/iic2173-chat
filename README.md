@@ -1,6 +1,7 @@
-# Chat App - IIC2173
+# Entrega final - IIC2173
 
-Ignacio Acosta ~ iaacosta@uc.cl
+## Integrantes
+...
 
 ## Stack
 
@@ -31,13 +32,24 @@ La aplicación se desarrollo con las siguientes herramientas:
 - Correr ambos servicios en paralelo con `pipenv run dev` en `api/` y `yarn start` en `client/`
   
 ### Docker
+- Construir contenedores con `docker-compose build`
 - Correr contenedores con `docker-compose up`
 
-## Nginx
+## Deploy
 
-Se aplicó un proxy inverso de todas las requests `~/api` a el servidor de flask, mientras que `~/` envía el archivo `index.html`, que está servido directamente por nginx desde directorio local `/var/www/`.
+### Variables de entorno
 
-Para el certificado SSL y el redireccionamiento, no se aplicó Certbot, sino que una configuración específica [(cortesía del crack EngineerMan)](https://youtu.be/IZmz39gGxCM?t=2864), donde se abren dos servidores:
+Debes definir las siguientes variables de entorno
 
-- **:80** - Redirecciona todo a https://ignacioacostaj.com con status code 301.
-- **:443** - Tiene configurado el reverse proxy y el root directory con el index.
+| Variable    | Signficado                                                             |
+| ----------- | ---------------------------------------------------------------------- |
+| ECR_URL     | URL del container en Amazon Elastic Container Registry (url/container) |
+| ECS_CLUSTER | Nombre del cluster al cual hacer el deploy                             |
+| ECS_SERVICE | Nombre del servicio que corre los containers en el cluster             |
+
+### Instrucciones
+
+1. Asegurarse de que tengas acceso al repositorio en Docker. Si no tienes acceso, debes usar la consola de AWS.
+   1. Configurar tu credencial IAM con `aws configure` (debes tener un ID y SECRET de una credencial IAM de la cuenta del repositorio). **NOTA**: toma en cuenta las regiones.
+   2. Iniciar sesión en repositorio para Docker con `eval $(aws ecr get-login --no-include-email --region us-east-1)`.
+2. Correr el script con `bash deploy_ecs.sh` o `sh deploy_ecs.sh`.
