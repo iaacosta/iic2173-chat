@@ -1,0 +1,13 @@
+version: '3'
+services:
+  server:
+    build: .
+    environment:
+      - FLASK_DEBUG=1
+      - AWS_IAM_ID=AKIAI2XW5HCARB435W5Q
+      - AWS_IAM_SECRET=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
+    ports:
+      - 80:5000
+    volumes:
+      - .:/app
+    command: python index.py
