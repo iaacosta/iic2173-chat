@@ -4,6 +4,4 @@ WORKDIR /app
 
 COPY . /app
 
-RUN yarn install
-
-CMD yarn start
+CMD bash -c 'yarn && yarn start'
