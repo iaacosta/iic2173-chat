@@ -39,19 +39,3 @@ def get_messages():
         'user': t[2],
         'content': t[3]}, message.all())
     return json.dumps(list(messages))
-
-
-@messages_blueprint.route('/test')
-@cross_origin()
-def test():
-    client = boto3.client(
-        'lambda',
-        aws_access_key_id=os.environ['AWS_IAM_ID'],
-        aws_secret_access_key=os.environ['AWS_IAM_SECRET'],
-        region_name=os.environ['AWS_REGION']
-    )
-
-    response = client.invoke(
-        FunctionName="exampleFunction", InvocationType="RequestResponse")
-
-    return response["Payload"].read().decode('utf-8')

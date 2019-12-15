@@ -1,6 +1,6 @@
 from flask import Flask, g
 from flask_cors import CORS
-from controllers import messages_blueprint
+from controllers import messages_blueprint, default_blueprint
 
 
 app = Flask(__name__)
@@ -8,6 +8,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+app.register_blueprint(default_blueprint)
 app.register_blueprint(messages_blueprint, url_prefix='/api/messages')
 
 
@@ -19,4 +20,4 @@ def close_database(expection):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run()
