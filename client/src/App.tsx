@@ -61,7 +61,7 @@ const App: React.FC = () => {
   const fetchMessages = async () => {
     try {
       const { data }: AxiosResponse<Message[]> = await axios.get(
-        '/api/messages',
+        '/messages',
       );
       setMessages(data);
     } catch (err) {
