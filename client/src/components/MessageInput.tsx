@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 
 import { colors, rgba } from 'lib/styles';
@@ -54,10 +54,35 @@ const Button = styled(Normalize)<{ valid: boolean }>`
   font-size: 1.6rem;
   transition: background-color 0.2s ease;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &:hover {
     background-color: ${({ valid }) =>
       valid ? rgba(colors.secondary, 0.8) : rgba(colors.black, 0.3)};
   }
+`;
+
+export const rotate = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const Loader = styled.div`
+  margin-left: 1rem;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+
+  animation: ${rotate} 1s ease infinite;
 `;
 
 interface Props {
@@ -70,6 +95,7 @@ const MessageInput: React.FC<Props> = ({ postCallback, apiCallback }) => {
   const [contentValid, setContentValid] = useState(false);
   const [user, setUser] = useState('');
   const [userTouched, setUserTouched] = useState(false);
+  const [loading, setLoading] = useState(false);
   const textArea = useRef<HTMLInputElement>(null);
 
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,19 +113,22 @@ const MessageInput: React.FC<Props> = ({ postCallback, apiCallback }) => {
   const handleSubmit = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     if (!contentValid) return;
+    setLoading(true);
 
     const pkg: { content: string; user?: string } = { content };
     if (user !== '') pkg.user = user;
 
     try {
-      await axios.post('/api/messages', pkg);
+      await axios.post('/messages', pkg);
+      await postCallback();
       setContent('');
       setContentValid(false);
       textArea.current!.focus();
-      postCallback();
     } catch (err) {
       console.error(err);
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -147,6 +176,7 @@ const MessageInput: React.FC<Props> = ({ postCallback, apiCallback }) => {
         onClick={e => (contentValid ? handleSubmit(e) : null)}
       >
         Enviar
+        {loading && <Loader />}
       </Button>
     </InputArea>
   );
