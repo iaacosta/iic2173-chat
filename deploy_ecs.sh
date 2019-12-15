@@ -5,5 +5,5 @@ if [[ -z "${ECR_URL}" || -z "${ECS_CLUSTER}" || -z "${ECS_SERVICE}" ]]; then
 else
   docker build ./api -t $ECR_URL
   docker push $ECR_URL
-  aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE
+  aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
 fi
